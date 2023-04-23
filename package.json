@@ -1,0 +1,41 @@
+{
+  "name": "part3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build:ui": "rm -rf build && cd ../frontend && npm run build && cp -r build ../backend",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "mongo": "node mongo.js producer",
+    "lint": "eslint . --fix",
+    "test": "jest --verbose --runInBand",
+    "test_watch": "jest --watch"
+  },
+  "author": "Peter Solomon",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "electron": "^24.1.1",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^9.0.0",
+    "mime": "^3.0.0",
+    "mongoose": "^7.0.3",
+    "mongoose-unique-validator": "^4.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.38.0",
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "globalTeardown": "./test_teardown.js"
+  }
+}
