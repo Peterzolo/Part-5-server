@@ -58,22 +58,20 @@ exports.deleteBlog = async (req, res) => {
 };
 
 exports.likePost = async (req, res) => {
-  const { id } = req.params;
-  const userId = req.user;
-
   try {
-    const blog = await Blog.findById({ _id: id });
+    const id = req.params.id;
+    console.log(" ID", id);
+    const userId = req.user;
+    console.log("USER ID", userId);
+    const blog = await Blog.findById(id);
 
     if (!blog) {
       return res.status(404).json({ error: "Blog not found" });
     }
 
-    console.log("GOT HERE---");
-
     if (blog.likedBy.includes(userId)) {
       return res.status(400).json({ error: "Blog already liked" });
     }
-    console.log("BLOG LIKES", typeof blog.likes);
 
     blog.likes = blog.likes + 1;
     blog.likedBy.push(userId);
@@ -82,7 +80,7 @@ exports.likePost = async (req, res) => {
 
     res.json(blog);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error" });
+    console.error(error.message);
+    res.status(500).json(error);
   }
 };

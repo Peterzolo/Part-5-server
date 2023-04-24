@@ -5,15 +5,16 @@ const jwt = require("jsonwebtoken");
 const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
+    console.log("AUTHORIZATION", authHeader);
     const token = authHeader && authHeader.split(" ")[1];
 
     if (!token) {
-      return res.sendStatus(401).json("No token provided");
+      return res.status(401).json({ error: "No token provided" });
     }
 
     const decoded = jwt.verify(token, process.env.SECRET);
     if (!decoded) {
-      throw new Error("Something went wrong");
+      return res.status(401).json({ error: "Invalid token" });
     }
     const user = await User.findById(decoded.id);
     req.user = user._id;
