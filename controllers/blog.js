@@ -38,10 +38,16 @@ exports.getBlogs = async (req, res) => {
   }
 };
 
+exports.removeBlog = (req, res) => {
+  res.send("Res works");
+};
+
 exports.deleteBlog = async (req, res) => {
   try {
     const id = req.params.id;
+    console.log("GOT HERE ID", id);
     const user = req.user;
+    console.log("USER", user);
     const blog = await Blog.findById(id);
     if (blog.userId.toString() !== user.toString()) {
       return res.status(403).json("You cannot delete this blog");
@@ -60,9 +66,7 @@ exports.deleteBlog = async (req, res) => {
 exports.likePost = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(" ID", id);
     const userId = req.user;
-    console.log("USER ID", userId);
     const blog = await Blog.findById(id);
 
     if (!blog) {
